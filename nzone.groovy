@@ -16,14 +16,32 @@
  *  limitations under the License.
  */
 
-// basic auth header value, i.e. base64 encoding of: username:password
-basicAuth = ''
+@Grapes(
+    @Grab('org.yaml:snakeyaml:1.15')
+)
 
-routerIpAddress = '192.168.0.1'
+import org.yaml.snakeyaml.Yaml
 
-// read the file into a list
+// open config file
+configFileName = 'config.yaml'
+configFile = new File(configFileName)
+if (!configFile.exists()) {
+    println "Expected config file did not exist: $configFileName"
+    System.exit(1)
+}
+
+// read config file
+Yaml yaml = new Yaml()
+Map<String, String> config = yaml.load(new FileInputStream(configFile))
+
+// get config values from the yaml
+basicAuth = config['basicAuth']  // base64 encoding of: username:password
+routerIpAddress = config['routerIpAddress'] // e.g. 192.168.0.1
+macListFile = config['macListFile'] // file containing the list of MAC addresses
+
+// read the MAC file into a list
 macList = []
-new File('mac_list').eachLine { macList << it }
+new File(macListFile).eachLine { macList << it }
 
 // get a random MAC address and clean up the string
 mac = macList[new Random().nextInt(macList.size())].trim().toUpperCase()

@@ -3,17 +3,21 @@ Homepass Scripts
 
 Nintendo Zone
 -------------
-nzone.groovy  
+`nzone.groovy`  
   
 This script will run a curl command hitting a router running DD-WRT that will change the MAC address (i.e. BSSID) of the first virtual interface to a random MAC address that is commonly used for homepass.  
   
 ### Usage
-1. Update the script to include a base64 encoded username and password of your router.
-2. Update the script to include the IP address of your router.
-3. Run the script:
+1. Create a config.yaml file using the config_sample.yaml template with your specific values.
+2. Run the script:
 ```console
 ./nzone.groovy
 ```
+  
+### Config
+* basicAuth - your router's login credentials, base64 encoding of: username:password
+* routerIpAddress - the IP address of your router
+* macListFile - the file name of the file containing a list of MAC addresses (use the value in the sample config if you're not sure)
   
 ### Details
 The script automates the following manual process:  

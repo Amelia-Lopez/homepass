@@ -47,20 +47,23 @@ new File(macListFile).eachLine { macList << it }
 mac = macList[new Random().nextInt(macList.size())].trim().toUpperCase()
 println("Mac: $mac")
 
-// URL Encode the MAC address
-mac = mac.replaceAll(':', '%3A')
+// command that will be sent to the router
+routerCommand = """\
+nvram set wl0.1_hwaddr=$mac
+nvram commit
+reboot"""
 
-command = [
+// URL-encode the command so it can be sent over HTTP
+routerCommand = java.net.URLEncoder.encode(routerCommand)
+
+curlCommand = [
     'curl', 'http://' + routerIpAddress + '/apply.cgi',
     '-H', 'Origin: http://' + routerIpAddress,
     '-H', 'Referer: http://' + routerIpAddress + '/Diagnostics.asp',
     '-H', 'Authorization: Basic ' + basicAuth,
     '-H', 'Content-Type: application/x-www-form-urlencoded',
     '-H', 'Connection: keep-alive',
-    '--data',
-    'submit_button=Ping&action=ApplyTake&submit_type=start&change_action=gozila_cgi' +
-        '&next_page=Diagnostics.asp&ping_ip=nvram+set+wl0.1_hwaddr%3D' +
-        mac +
-        '%0D%0Anvram+commit%0D%0Areboot']
+    '--data', 'submit_button=Ping&action=ApplyTake&submit_type=start&change_action=gozila_cgi' +
+        '&next_page=Diagnostics.asp&ping_ip=' + routerCommand]
 
-println command.execute().text
+println curlCommand.execute().text

@@ -18,6 +18,7 @@ This script will run a curl command hitting a router running DD-WRT that will ch
 * basicAuth - your router's login credentials, base64 encoding of: username:password
 * routerIpAddress - the IP address of your router
 * macListFile - the file name of the file containing a list of MAC addresses (use the value in the sample config if you're not sure)
+* routerWifiInterface - the wireless interface on the router to update, e.g. "wl0.1" is usually the first virtual interface
   
 ### Details
 The script automates the following manual process:  

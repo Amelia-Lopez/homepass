@@ -38,6 +38,7 @@ Map<String, String> config = yaml.load(new FileInputStream(configFile))
 basicAuth = config['basicAuth']  // base64 encoding of: username:password
 routerIpAddress = config['routerIpAddress'] // e.g. 192.168.0.1
 macListFile = config['macListFile'] // file containing the list of MAC addresses
+routerWifiInterface = config['routerWifiInterface'] // wifi interface to update, e.g. wl0.1 = first virtual interface
 
 // read the MAC file into a list
 macList = []
@@ -49,7 +50,7 @@ println("Mac: $mac")
 
 // command that will be sent to the router
 routerCommand = """\
-nvram set wl0.1_hwaddr=$mac
+nvram set ${routerWifiInterface}_hwaddr=$mac
 nvram commit
 reboot"""
 

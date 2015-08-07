@@ -39,10 +39,19 @@ basicAuth = config['basicAuth']  // base64 encoding of: username:password
 routerIpAddress = config['routerIpAddress'] // e.g. 192.168.0.1
 macListFile = config['macListFile'] // file containing the list of MAC addresses
 routerWifiInterface = config['routerWifiInterface'] // wifi interface to update, e.g. wl0.1 = first virtual interface
+dynamicMacList = config['dynamicMacList'] // if we should download the MAC list instead of using the file
+dynamicMacUrl = config['dynamicMacUrl'] // the URL to download the MAC list from
 
 // read the MAC file into a list
 macList = []
-new File(macListFile).eachLine { macList << it }
+
+if (dynamicMacList) {
+    // get our MAC list from the Internet using the configured URL
+    dynamicMacUrl.toURL().text.eachLine { macList << it }
+} else {
+    // get our MAC list from the static file
+    new File(macListFile).eachLine { macList << it }
+}
 
 // get a random MAC address and clean up the string
 mac = macList[new Random().nextInt(macList.size())].trim().toUpperCase()

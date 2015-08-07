@@ -19,6 +19,8 @@ This script will run a curl command hitting a router running DD-WRT that will ch
 * routerIpAddress - the IP address of your router
 * macListFile - the file name of the file containing a list of MAC addresses (use the value in the sample config if you're not sure)
 * routerWifiInterface - the wireless interface on the router to update, e.g. "wl0.1" is usually the first virtual interface
+* dynamicMacList - whether a MAC file should be used (false) or if the script should download a fresh list of MAC addresses (true)
+* dynamicMacUrl - the URL to download the MAC addresses from if dynamicMacList is set to true
   
 ### Details
 The script automates the following manual process:  

@@ -3,3 +3,5 @@ basicAuth: QWxhZGRpbjpvcGVuIHNlc2FtZQ==
 routerIpAddress: 192.168.0.1
 macListFile: mac_list
 routerWifiInterface: wl0.1
+dynamicMacList: true
+dynamicMacUrl: http://nintendozone.no-ip.org/?BASE256,GBATEMP
